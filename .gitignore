@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.env
+.venv/
+venv/
+
+# FastAPI / Uvicorn
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build
+dist/
+build/
+
+# Agent workspaces (VERY IMPORTANT)
+workspaces/
+sandbox/tmp/
+
+# Git
+*.orig
+
+# Docker
+*.tar
+
+# Node (for cloned repos)
+node_modules/
+
+# Secrets
+.env.*
+!.env.example
