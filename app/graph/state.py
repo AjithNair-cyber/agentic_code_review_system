@@ -9,6 +9,7 @@ class GitHubInfo(TypedDict):
     repo: Optional[str]
     before_sha: Optional[str]
     after_sha: Optional[str]
+    branch: Optional[str]
     
 class GithubDiffSet(TypedDict):
     path: Optional[str]

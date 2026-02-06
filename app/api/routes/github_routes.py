@@ -12,6 +12,7 @@ async def handle_github_event(request: Request):
     after_sha = payload.get("after")
     owner = payload.get("repository").get('full_name').split('/')[0]
     repo = payload.get("repository").get('full_name').split('/')[1]
+    branch = payload.get("ref")
 
     response = await app_graph.ainvoke({
         "github": {
@@ -19,6 +20,7 @@ async def handle_github_event(request: Request):
             "repo": repo,
             "before_sha": before_sha,
             "after_sha": after_sha,
+            "branch": branch
         }
     })
 
