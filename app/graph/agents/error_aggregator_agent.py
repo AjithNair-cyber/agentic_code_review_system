@@ -2,7 +2,6 @@ from collections import defaultdict
 from app.graph.state import GraphState
 
 def aggregate_reviews_by_file(state: GraphState):
-    print("Aggregating reviews by file..." , state)
     diff_reviews = state.get("code_review_messages", [])
     pyright_reviews = state.get("pyright_review_messages", [])
 
@@ -27,9 +26,7 @@ def aggregate_reviews_by_file(state: GraphState):
             "issues": issues
         }
         for file, issues in grouped.items()
-    ]
-    print("Aggregating reviews by END." , state)
-    
+    ]    
     return {
         "consolidated_reviews": consolidated
     }

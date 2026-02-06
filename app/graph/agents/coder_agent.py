@@ -5,7 +5,6 @@ from app.graph.prompts.SYSTEM_PROMPTS import CODE_WRITER_AGENT
 from app.config.open_ai import open_ai_code_writter_client
 
 async def senior_coder_agent(state:GraphState):
-    print()
     consolidated_review = state["consolidated_reviews"][0]
     repo_path = state.get("repo_path", "workspaces")
     file_path = consolidated_review["file"]
