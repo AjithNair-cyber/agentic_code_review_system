@@ -84,6 +84,7 @@ def github_code_cloning_agent_pyright(state: GraphState):
         raise RuntimeError(f"Git operation failed: {e}")
 
     return {
-        "pyright_error_messages": pyright_output
+        "pyright_error_messages": pyright_output,
+        "repo_path": str(repo_path)
     }
     

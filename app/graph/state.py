@@ -45,6 +45,10 @@ class FileConsolidatedReview(TypedDict):
     file: str
     issues: List[ConsolidatedIssue]
 
+class CodeWritterOutput(TypedDict):
+    file : Optional[str]
+    updated_code: Optional[str]
+
 class GraphState(TypedDict):
 
     # Conversation
@@ -52,6 +56,7 @@ class GraphState(TypedDict):
     
    # GitHub metadata
     github: Optional[GitHubInfo]
+    repo_path: Optional[str]
     
     # Code Diff
     diffset: Annotated[List[GithubDiffSet], operator.add]
@@ -67,6 +72,9 @@ class GraphState(TypedDict):
     
     # Consolidated Reviews
     consolidated_reviews: Annotated[List[FileConsolidatedReview], operator.add]
+    
+    # Consolidated Code Updates after validation
+    consolidated_code_updates: Annotated[List[CodeWritterOutput], operator.add]
     
     # Updated code after validation
     suggested_code: Optional[str]
