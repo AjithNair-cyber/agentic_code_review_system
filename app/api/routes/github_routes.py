@@ -7,7 +7,6 @@ router = APIRouter()
 @router.post("/events")
 async def handle_github_event(request: Request):
     payload = await request.json()
-    print(payload)
     # 1. Extract the 'before', 'after' SHAs, owner and github_repo from the payload
     before_sha = payload.get("before")
     after_sha = payload.get("after")
