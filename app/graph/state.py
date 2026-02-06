@@ -79,7 +79,7 @@ class GraphState(TypedDict):
     # Updated code after validation
     suggested_code: Optional[str]
     
-    # Report on code validation
+    # Report on code validati
     report: Optional[str]
 
 
