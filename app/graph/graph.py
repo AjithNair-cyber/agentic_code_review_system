@@ -14,17 +14,17 @@ graph.add_node("code_reviewer", code_reviewer_agent)
 
 
 # Flow
+graph.add_edge(START, "github_diff_checker")
 graph.add_edge(START, "github_code_cloning")
 
 
-# # Fan-out routing
-# graph.add_conditional_edges(
-#     "github_diff_checker",
-#     dispatch_files
-# )
+# Fan-out routing
+graph.add_conditional_edges(
+    "github_diff_checker",
+    dispatch_files
+)
 
-# # After each reviewer finishes, go to END
-# graph.add_edge("code_reviewer", END)
-graph.add_edge("github_code_cloning", END)
+# After each reviewer finishes, go to END
+graph.add_edge("code_reviewer", END)
 
 app_graph = graph.compile()

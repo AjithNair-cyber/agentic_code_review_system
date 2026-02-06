@@ -76,13 +76,11 @@ def github_code_cloning_agent_pyright(state: GraphState):
         )
 
         pyright_output = result.stdout
-        print("Pyright Output:", pyright_output)
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")
 
     return {
-        "workspace_path": str(repo_path),
-        "pyright_output": pyright_output
+        "pyright_report": pyright_output
     }
     

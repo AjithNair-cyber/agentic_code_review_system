@@ -16,7 +16,7 @@ Validate that comments are accurate, truthful, and not outdated or misleading
 
 INSTRUCTIONS
 
-Analyze the provided git diff using the following Universal Bug Detection Framework. Apply these checks regardless of language, framework, or ecosystem.
+Analyze the provided git diff & the pyright report using the following Universal Bug Detection Framework. Apply these checks regardless of language, framework, or ecosystem.
 
 STATE & CONTRACT VIOLATIONS
 

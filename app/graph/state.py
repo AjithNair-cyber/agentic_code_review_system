@@ -28,6 +28,9 @@ class GraphState(TypedDict):
     # Conversation
     messages: Annotated[List[BaseMessage], add_messages]
     
+    # Code review pyright 
+    pyright_report: Optional[str]
+    
    # GitHub metadata
     github: Optional[GitHubInfo]
     
