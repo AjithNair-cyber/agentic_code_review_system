@@ -11,12 +11,10 @@ async def code_reviewer_agent(state: GraphState):
     formatted_diff = f"""
     File: {diff['path']}
     Status: {diff['status']}
-
     Added:
-    {''.join(diff['added'])}
-
+    {''.join(diff['added'] or [])}
     Removed:
-    {''.join(diff['removed'])}
+    {''.join(diff['removed'] or [])}
     """
 
     prompt = ChatPromptTemplate.from_messages([
