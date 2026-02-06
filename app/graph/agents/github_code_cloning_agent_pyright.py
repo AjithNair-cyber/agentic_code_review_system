@@ -3,6 +3,8 @@ from pathlib import Path
 from app.graph.state import GraphState
 
 
+import json
+
 def github_code_cloning_agent_pyright(state: GraphState):
     owner = state["github"]["owner"]
     repo_name = state["github"]["repo"]
@@ -11,17 +13,16 @@ def github_code_cloning_agent_pyright(state: GraphState):
     if branch.startswith("refs/heads/"):
         branch = branch.replace("refs/heads/", "")
     after_sha = state["github"]["after_sha"]
-    workspace_root = Path("workspaces")
 
     if not repo_url or not branch or not after_sha:
         raise ValueError("Missing repo_url, branch_name, or after_sha")
 
-    # Unique folder per job
+    workspace_root = Path("workspaces")
     repo_path = workspace_root / after_sha
+
     repo_path.mkdir(parents=True, exist_ok=True)
 
     try:
-        # Clone specific branch shallow
         subprocess.run(
             [
                 "git",
@@ -34,7 +35,6 @@ def github_code_cloning_agent_pyright(state: GraphState):
             check=True,
         )
 
-        # Ensure exact commit
         subprocess.run(
             ["git", "fetch", "--depth", "1", "origin", after_sha],
             cwd=repo_path,
@@ -47,9 +47,42 @@ def github_code_cloning_agent_pyright(state: GraphState):
             check=True,
         )
 
+        # ---------------------------
+        # 🔥 CREATE PYRIGHT CONFIG
+        # ---------------------------
+        pyright_config = {
+            "typeCheckingMode": "basic",
+            "reportMissingImports": False,
+            "reportMissingModuleSource": False,
+            "exclude": [
+                "**/__pycache__",
+                "**/venv",
+                "**/.venv",
+                "**/node_modules"
+            ]
+        }
+
+        with open(repo_path / "pyrightconfig.json", "w") as f:
+            json.dump(pyright_config, f)
+
+        # ---------------------------
+        # 🔥 RUN PYRIGHT
+        # ---------------------------
+        result = subprocess.run(
+            ["pyright", "--outputjson"],
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+        )
+
+        pyright_output = result.stdout
+        print("Pyright Output:", pyright_output)
+
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")
 
     return {
-        "workspace_path": str(repo_path)
+        "workspace_path": str(repo_path),
+        "pyright_output": pyright_output
     }
+    
