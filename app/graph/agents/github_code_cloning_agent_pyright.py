@@ -18,6 +18,7 @@ def github_code_cloning_agent_pyright(state: GraphState):
 
     workspace_root = Path("workspaces")
     repo_path = workspace_root / after_sha
+    pyright_output = ''
 
     repo_path.mkdir(parents=True, exist_ok=True)
 
@@ -74,7 +75,7 @@ def github_code_cloning_agent_pyright(state: GraphState):
             text=True,
         )
 
-        pyright_output = result.stdout
+        pyright_output = str(result.stdout)
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")

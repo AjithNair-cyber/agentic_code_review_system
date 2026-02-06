@@ -2,7 +2,13 @@ from typing import TypedDict, List, Optional,Annotated
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 import operator
-
+    
+    
+class PyrightReviewMessage(TypedDict):
+    file: Optional[str]
+    issue: Optional[str]
+    severity: Optional[str]
+    recommended_fix: Optional[str]
 
 class GitHubInfo(TypedDict):
     owner: Optional[str]
@@ -17,7 +23,7 @@ class GithubDiffSet(TypedDict):
     added: Optional[List[str]]
     removed: Optional[List[str]]
     
-class CodeReviewMessage(TypedDict):
+class CodeDiffReviewMessage(TypedDict):
     file: Optional[str]
     issue: Optional[str]
     criticality: Optional[str]
@@ -38,7 +44,10 @@ class GraphState(TypedDict):
     diffset: Annotated[List[GithubDiffSet], operator.add]
     
     # Code Review Messages
-    code_review_messages: Annotated[List[CodeReviewMessage], operator.add]
+    code_review_messages: Annotated[List[CodeDiffReviewMessage], operator.add]
+    
+    # Pyright Review Messages
+    pyright_review_messages: Optional[PyrightReviewMessage]
     
     # Updated code after validation
     suggested_code: Optional[str]
