@@ -5,7 +5,7 @@ from app.graph.prompts.SYSTEM_PROMPTS import REVIEWER_AGENT
 
 def code_reviewer_agent(state: GraphState) :
     
-    diff = state["diff"]
+    diff = state["diffset"]
     
     prompt = ChatPromptTemplate.from_messages([
     ("system", REVIEWER_AGENT),
