@@ -6,6 +6,6 @@ settings = get_settings()
 
 open_ai_client = ChatOpenAI(
     api_key=settings.OPEN_AI_API_KEY,
-    model="gpt-4",
+     model="gpt-4o-mini",
     temperature=0.7,
 )
