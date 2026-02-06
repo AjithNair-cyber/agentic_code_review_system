@@ -8,8 +8,10 @@ def github_code_cloning_agent_pyright(state: GraphState):
     repo_name = state["github"]["repo"]
     repo_url = f"https://github.com/{owner}/{repo_name}.git"
     branch = state["github"]["branch"]
+    if branch.startswith("refs/heads/"):
+        branch = branch.replace("refs/heads/", "")
     after_sha = state["github"]["after_sha"]
-    workspace_root = Path("workspace")
+    workspace_root = Path("workspaces")
 
     if not repo_url or not branch or not after_sha:
         raise ValueError("Missing repo_url, branch_name, or after_sha")
