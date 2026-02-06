@@ -17,5 +17,5 @@ async def pyright_reviewer_agent(state: GraphState):
     result = await chain.ainvoke({"pyright_report": pyright_report})
 
     return {
-        "code_review_messages": [result]
+        "pyright_review_messages": result
     }

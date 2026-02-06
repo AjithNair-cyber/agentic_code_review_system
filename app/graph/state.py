@@ -5,7 +5,7 @@ import operator
     
     
 class PyrightReviewMessage(TypedDict):
-    file: Optional[str]
+    files: Optional[List[str]]
     issue: Optional[str]
     severity: Optional[str]
     recommended_fix: Optional[str]
