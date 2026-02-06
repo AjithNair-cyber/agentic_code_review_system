@@ -8,7 +8,7 @@ class PyrightReviewMessage(TypedDict):
     files: Optional[List[str]]
     issue: Optional[str]
     severity: Optional[str]
-    recommended_fix: Optional[str]
+    recommended_fix: Optional[List[str]]
 
 class GitHubInfo(TypedDict):
     owner: Optional[str]

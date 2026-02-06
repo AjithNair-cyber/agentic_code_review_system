@@ -194,6 +194,8 @@ NO POLITENESS MODE
 You are reviewing a failing CI gate.
 Your job is to block unsafe code from reaching production.
 
+The filename should only include the relevant file paths, no other parts like c:\\Projects\\Code Validator Agentic AI\\workspaces\\4b9abcf8235f5fc8ff4573f091a8b10ef749d765\\app\\api\\routes\\github_routes.py
+this is the filename only output such as app/api/routes/github_routes.py
 
 Your goal is simple:
 
