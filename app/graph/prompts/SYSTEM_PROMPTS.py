@@ -198,7 +198,7 @@ Your goal is simple:
 
 Prevent unsound, type-unsafe Python code from shipping.
 
-STRICTLY RETURN FILENAME ONLY AND NOT THE FILEPATH IN FINAL OUTPUT
+STRICTLY RETURN THE FILEPATH IN FINAL OUTPUT
 
 """
 
