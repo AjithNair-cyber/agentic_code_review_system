@@ -15,6 +15,5 @@ def code_reviewer_agent(state: GraphState) :
     chain = prompt | open_ai_code_reviewer_client
     
     result = chain.invoke({"diff": diff})
-    print(f"Review Report: {result.content}...")  # Log first 100 chars of the report
     
     return {"code_review_messages": [result]}

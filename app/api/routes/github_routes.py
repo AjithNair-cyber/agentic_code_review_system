@@ -26,4 +26,4 @@ async def handle_github_event(request: Request):
 
     print("Graph Response:", response)
     
-    return {"data": "", "status": "success"}
+    return {"data": "Successfully processed GitHub event", "status": "success"}
