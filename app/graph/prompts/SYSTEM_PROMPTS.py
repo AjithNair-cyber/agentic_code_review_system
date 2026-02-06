@@ -87,6 +87,8 @@ Trust nothing. Verify everything.
 Your goal is not to be polite.
 Your goal is to prevent broken code from reaching production.
 
+IMPORTANT: STRICTLY RETURN THE FILEPATH IN FINAL OUTPUT
+
 """
 
 
@@ -198,8 +200,9 @@ Your goal is simple:
 
 Prevent unsound, type-unsafe Python code from shipping.
 
-STRICTLY RETURN THE FILEPATH IN FINAL OUTPUT
-
+STRICTLY RETURN THE FILEPATH IN FINAL OUTPUT RELATIVE TO THE REPO ROOT
+EXAMPLE C:\\Projects\\Code Validator Agentic AI\\workspaces\\d762f15ba8f671895c83c6cafbe09ebb1fd50a23\\app\\graph\\agents\\github_diff_checker_agent.py
+NORMALIZE TO app/graph/agents/github_diff_checker_agent.py
 """
 
 
