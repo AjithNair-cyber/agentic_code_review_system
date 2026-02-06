@@ -1,9 +1,8 @@
 import subprocess
 from pathlib import Path
 from app.graph.state import GraphState
-
-
 import json
+import shutil
 
 def github_code_cloning_agent_pyright(state: GraphState):
     owner = state["github"]["owner"]
@@ -79,6 +78,11 @@ def github_code_cloning_agent_pyright(state: GraphState):
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")
+    
+    finally :
+        # Clean up the cloned repository to save space
+        if repo_path.exists():
+            shutil.rmtree(repo_path)
 
     return {
         "pyright_report": pyright_output
