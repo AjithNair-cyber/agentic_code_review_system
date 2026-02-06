@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path
 from app.graph.state import GraphState
 import json
+from app.helper_functions.pyright_functions import extract_pyright_errors
 
 
 def github_code_cloning_agent_pyright(state: GraphState):
@@ -74,13 +75,15 @@ def github_code_cloning_agent_pyright(state: GraphState):
             capture_output=True,
             text=True,
         )
-
-        pyright_output = str(result.stdout)
+        
+        pyright_json = json.loads(result.stdout)
+        
+        pyright_output = extract_pyright_errors(pyright_json)
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")
 
     return {
-        "pyright_report": pyright_output
+        "pyright_error_messages": pyright_output
     }
     

@@ -2,13 +2,22 @@ from typing import TypedDict, List, Optional,Annotated
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 import operator
-    
-    
-class PyrightReviewMessage(TypedDict):
-    files: Optional[List[str]]
-    issue: Optional[str]
+
+class PyrightErrorMessage(TypedDict):
+    file: Optional[str]
+    line: Optional[int]
+    character: Optional[int]
+    message: Optional[str]
     severity: Optional[str]
-    recommended_fix: Optional[List[str]]
+    rule: Optional[str]
+
+class CodeReviewMessage(TypedDict):
+    file: Optional[str]
+    issue: Optional[str]
+    line : Optional[int]
+    character: Optional[int]
+    severity: Optional[str]
+    recommended_fix: Optional[str]
 
 class GitHubInfo(TypedDict):
     owner: Optional[str]
@@ -23,19 +32,23 @@ class GithubDiffSet(TypedDict):
     added: Optional[List[str]]
     removed: Optional[List[str]]
     
-class CodeDiffReviewMessage(TypedDict):
-    file: Optional[str]
-    issue: Optional[str]
-    criticality: Optional[str]
-    confidence: Optional[float]
+class ConsolidatedIssue(TypedDict):
+    source: str  # "pyright" | "diff"
+    message: Optional[str]
+    line: Optional[int]
+    character: Optional[int]
+    severity: Optional[str]
+    rule: Optional[str]
+    recommended_fix: Optional[str]
+    
+class FileConsolidatedReview(TypedDict):
+    file: str
+    issues: List[ConsolidatedIssue]
 
 class GraphState(TypedDict):
 
     # Conversation
     messages: Annotated[List[BaseMessage], add_messages]
-    
-    # Code review pyright 
-    pyright_report: Optional[str]
     
    # GitHub metadata
     github: Optional[GitHubInfo]
@@ -44,10 +57,16 @@ class GraphState(TypedDict):
     diffset: Annotated[List[GithubDiffSet], operator.add]
     
     # Code Review Messages
-    code_review_messages: Annotated[List[CodeDiffReviewMessage], operator.add]
+    code_review_messages: Annotated[List[CodeReviewMessage], operator.add]
+    
+     # Pyright Error Messages
+    pyright_error_messages: Annotated[List[PyrightErrorMessage], operator.add]
     
     # Pyright Review Messages
-    pyright_review_messages: Optional[PyrightReviewMessage]
+    pyright_review_messages: Annotated[List[CodeReviewMessage], operator.add]
+    
+    # Consolidated Reviews
+    consolidated_reviews: Annotated[List[FileConsolidatedReview], operator.add]
     
     # Updated code after validation
     suggested_code: Optional[str]
