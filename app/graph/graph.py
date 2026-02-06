@@ -5,8 +5,13 @@ from app.graph.state import GraphState
 
 graph = StateGraph(GraphState)
 
-graph.add_edge(START, "reviewer")
-graph.add_node("reviewer", fetch_github_diff_agent)
-graph.add_edge("reviewer", END)
+
+graph.add_node("github_diff_checker", fetch_github_diff_agent)
+graph.add_node("code_reviewer", code_reviewer_agent)
+
+
+graph.add_edge(START, "github_diff_checker")
+graph.add_edge("github_diff_checker", "code_reviewer")
+graph.add_edge("code_reviewer", END)
 
 app_graph = graph.compile()

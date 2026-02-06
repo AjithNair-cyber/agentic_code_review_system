@@ -16,6 +16,12 @@ class GithubDiffSet(TypedDict):
     status: Optional[str]
     added: Optional[List[str]]
     removed: Optional[List[str]]
+    
+class CodeReviewMessage(TypedDict):
+    file: Optional[str]
+    issue: Optional[str]
+    criticality: Optional[str]
+    confidence: Optional[float]
 
 class GraphState(TypedDict):
 
@@ -27,6 +33,9 @@ class GraphState(TypedDict):
     
     # Code Diff
     diffset: Annotated[List[GithubDiffSet], operator.add]
+    
+    # Code Review Messages
+    code_review_messages: Annotated[List[CodeReviewMessage], operator.add]
     
     # Updated code after validation
     suggested_code: Optional[str]
