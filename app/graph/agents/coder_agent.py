@@ -6,7 +6,7 @@ from app.config.open_ai import open_ai_code_writter_client
 
 async def senior_coder_agent(state:GraphState):
     consolidated_review = state["consolidated_reviews"][0]
-    repo_path = state.get("repo_path", "workspaces")
+    repo_path = state["repo_path"] or "workspaces"
     file_path = consolidated_review["file"]
     file_path = Path(repo_path) / file_path
     
@@ -23,5 +23,6 @@ async def senior_coder_agent(state:GraphState):
     result = await chain.ainvoke({ "content": file_content, "issues": issues})
     
     return {
-        "consolidated_code_updates": [result]}
+        "consolidated_code_updates": [result]
+        }
     

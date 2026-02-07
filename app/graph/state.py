@@ -77,7 +77,7 @@ class GraphState(TypedDict):
     consolidated_code_updates: Annotated[List[CodeWritterOutput], operator.add]
     
     # Updated code after validation
-    suggested_code: Optional[str]
+    success: Optional[str]
     
     # Report on code validati
     report: Optional[str]

@@ -30,7 +30,7 @@ async def handle_github_event(request: Request):
             "diffset": [],
             "repo_path": "",
             "code_review_messages": [],
-            "suggested_code": "",
+            "success": "",
             "report": "",
             "pyright_review_messages": [],
             "pyright_error_messages": [],

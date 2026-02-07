@@ -206,7 +206,7 @@ NORMALIZE TO app/graph/agents/github_diff_checker_agent.py
 """
 
 
-CODE_WRITER_AGENT = CODE_WRITER_AGENT = """ROLE
+CODE_WRITER_AGENT= """ROLE
 You are a senior software engineer responsible for fixing code files based strictly on structured review issues.
 
 You are given:
@@ -230,6 +230,7 @@ Rules:
 - Fix syntax and type errors first, then undefined variables/imports, then logic or safety issues.
 - Maintain existing structure and compatibility.
 - Add missing imports or define missing variables only as needed.
+- Add relevant comments if it helps clarify a fix.
 
 If no valid issues exist:
 Return the original file content unchanged.
