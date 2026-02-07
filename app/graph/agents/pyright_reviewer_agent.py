@@ -5,7 +5,15 @@ from app.graph.prompts.SYSTEM_PROMPTS import PYRIGHT_REVIEWER_AGENT
 
 
 async def pyright_reviewer_agent(state: GraphState):
+    pyright_errors = state.get("pyright_error_messages")
+    # Guard clause
+    if not pyright_errors:
+        print("No pyright errors. Skipping reviewer.")
+        return {"pyright_review_messages": []}
+    
     pyright_error = state.get("pyright_error_messages")[0]
+    
+    
     prompt = ChatPromptTemplate.from_messages([
         ("system", PYRIGHT_REVIEWER_AGENT),
         ("human", "Review this pyright error message:\n\n{pyright_report}")

@@ -5,6 +5,12 @@ from app.graph.prompts.SYSTEM_PROMPTS import GIT_DIFF_REVIEWER_AGENT
 
 
 async def code_reviewer_agent(state: GraphState):
+    diffset = state.get("diffset")
+
+    # Guard clause
+    if not diffset:
+        print("No diffset. Skipping reviewer.")
+        return {"code_review_messages": []}
 
     diff = state["diffset"][0]
     formatted_diff = f"""
