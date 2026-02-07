@@ -6,7 +6,8 @@ def aggregate_reviews_by_file(state: GraphState):
     pyright_reviews = state.get("pyright_review_messages", [])
 
     grouped = defaultdict(list)
-
+    print("Aggregating reviews by file " + str(len(diff_reviews)) + " diff reviews and " + str(len(pyright_reviews)) + " pyright reviews")
+    print("Diff Reviews: " + str(diff_reviews))
     # Merge both sources
     for review in diff_reviews:
         grouped[review["file"]].append({
