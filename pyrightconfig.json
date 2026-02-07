@@ -2,14 +2,5 @@
   "typeCheckingMode": "basic",
   "reportMissingImports": false,
   "reportMissingModuleSource": false,
-  "reportGeneralTypeIssues": true,
-  "reportOptionalMemberAccess": false,
-  "reportOptionalSubscript": false,
-  "reportPrivateImportUsage": false,
-  "reportUnknownVariableType": false,
-  "reportUnknownMemberType": false,
-  "reportUnknownArgumentType": false,
-  "reportUnknownLambdaType": false,
-  "reportUntypedFunctionDecorator": false,
-  "reportUntypedClassDecorator": false
+  "exclude": ["**/__pycache__", "**/venv", "**/.venv", "**/node_modules"]
 }

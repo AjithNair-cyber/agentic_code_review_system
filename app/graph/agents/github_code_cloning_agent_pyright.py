@@ -6,10 +6,17 @@ from app.helper_functions.pyright_functions import extract_pyright_errors
 
 
 def github_code_cloning_agent_pyright(state: GraphState):
+    if state["github"] is None:
+        raise ValueError("GitHub information is missing from the state.")
+    
     owner = state["github"]["owner"]
     repo_name = state["github"]["repo"]
     repo_url = f"https://github.com/{owner}/{repo_name}.git"
     branch = state["github"]["branch"]
+    
+    if not repo_url or not branch:
+        raise ValueError("Missing repo_url or branch_name")
+    
     if branch.startswith("refs/heads/"):
         branch = branch.replace("refs/heads/", "")
     after_sha = state["github"]["after_sha"]
