@@ -9,6 +9,7 @@ async def raise_pr_agent(state: GraphState):
     branch_name = f"ai-fix-{uuid.uuid4().hex[:6]}"
     settings = get_settings()
     GITHUB_TOKEN = settings.GITHUB_TOKEN
+    print(GITHUB_TOKEN)
     github_info = state.get("github", {})
 
     if not github_info:
