@@ -35,7 +35,8 @@ async def handle_github_event(request: Request):
             "pyright_review_messages": [],
             "pyright_error_messages": [],
             "consolidated_reviews": [],
-            "consolidated_code_updates": []
+            "consolidated_code_updates": [],
+            "pr_url": ""
         })
     )
 

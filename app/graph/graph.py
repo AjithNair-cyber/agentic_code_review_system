@@ -9,6 +9,7 @@ from app.graph.agents.pyright_reviewer_agent import pyright_reviewer_agent
 from app.graph.agents.error_aggregator_agent import aggregate_reviews_by_file
 from app.graph.agents.coder_agent import senior_coder_agent
 from app.graph.agents.code_editor_agent import write_to_file
+from app.graph.agents.pr_raising_agent import raise_pr_agent
 from app.graph.state import GraphState
 
 graph = StateGraph(GraphState)
@@ -21,6 +22,8 @@ graph.add_node("pyright_reviewer", pyright_reviewer_agent)
 graph.add_node("error_aggregator", aggregate_reviews_by_file)
 graph.add_node("code_writer", senior_coder_agent)
 graph.add_node("code_editor", write_to_file)
+graph.add_node("pr_raiser", raise_pr_agent)
+
 # Flow
 graph.add_edge(START, "github_diff_checker")
 graph.add_edge(START, "github_code_cloning")
@@ -49,6 +52,7 @@ graph.add_conditional_edges(
 
 # After error aggregation, go to END
 graph.add_edge("code_writer", "code_editor")
-graph.add_edge("code_editor", END)
+graph.add_edge("code_editor", "pr_raiser")
+graph.add_edge("pr_raiser", END)
 
 app_graph = graph.compile()

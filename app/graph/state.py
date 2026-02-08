@@ -79,6 +79,8 @@ class GraphState(TypedDict):
     # Updated code after validation
     success: Optional[str]
     
+    pr_url : Optional[str]
+    
     # Report on code validati
     report: Optional[str]
 
