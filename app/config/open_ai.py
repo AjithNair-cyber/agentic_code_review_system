@@ -12,4 +12,4 @@ open_ai_client = ChatOpenAI(
 )
 
 open_ai_code_reviewer_client = open_ai_client.with_structured_output(CodeReviewMessage)
-open_ai_code_writter_client = open_ai_client.with_structured_output(CodeWritterOutput)
+open_ai_code_writer_client = open_ai_client.with_structured_output(CodeWritterOutput)

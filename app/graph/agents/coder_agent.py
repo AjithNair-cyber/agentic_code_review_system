@@ -2,7 +2,7 @@ from app.graph.state import GraphState
 from pathlib import Path
 from langchain_core.prompts import ChatPromptTemplate
 from app.graph.prompts.SYSTEM_PROMPTS import CODE_WRITER_AGENT
-from app.config.open_ai import open_ai_code_writter_client
+from app.config.open_ai import open_ai_code_writer_client
 
 async def senior_coder_agent(state:GraphState):
     consolidated_reviews = state["consolidated_reviews"]
@@ -23,7 +23,7 @@ async def senior_coder_agent(state:GraphState):
         ("human", "Content:\n{content}\nIssues:\n{issues}")
     ])
 
-    chain = prompt | open_ai_code_writter_client
+    chain = prompt | open_ai_code_writer_client
 
     result = await chain.ainvoke({ "content": file_content, "issues": issues})
     
