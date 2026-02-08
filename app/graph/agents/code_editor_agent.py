@@ -4,7 +4,8 @@ from pathlib import Path
 def write_to_file(state: GraphState):
     repo_path = state["repo_path"] or "workspaces"
     consolidated_code_updates = state["consolidated_code_updates"]
-    
+    print("Writing to file with repo_path: " + repo_path)
+    print("Consolidated code updates: " + str(consolidated_code_updates))
     if not consolidated_code_updates:
         return {"success": "No code updates to write."}
     
