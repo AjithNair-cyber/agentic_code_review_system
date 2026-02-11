@@ -5,7 +5,15 @@ import json
 from app.helper_functions.pyright_functions import extract_pyright_errors
 
 
-def github_code_cloning_agent_pyright(state: GraphState):
+def github_code_cloning_agent_pyright(state: GraphState):   
+    
+    '''This agent clones the GitHub repository and checks out the specific branch and commit related to the recent code changes.
+    It then runs Pyright on the cloned codebase to analyze it for type errors and other issues. 
+    The Pyright error messages are extracted and stored in the state for further processing by the Pyright reviewer agent.
+    It expects the state to have a "github" key with "owner", "repo", "after_sha", and "branch" information.
+    The cloned repository is stored in a "repo_path" key in the state, and the Pyright error messages are stored in a "pyright_error_messages" key.
+    As the github repo is needed for pyright analysis, the agent runs just after cloning and before any review agents and not seperately as another agent.'''
+    
     if state["github"] is None:
         raise ValueError("GitHub information is missing from the state.")
    

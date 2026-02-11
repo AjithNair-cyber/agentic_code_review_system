@@ -5,7 +5,9 @@ from unidiff import PatchSet
 
 
 async def fetch_github_diff(owner: str, repo: str, before_sha: str, after_sha: str, token: str='') -> str:
-    
+    '''This function fetches the git diff of the recent code changes from GitHub using the GitHub API.
+    It takes the repository owner, repository name, before and after commit SHAs, and an optional GitHub token for authentication. It returns the raw diff text for the specified commits.'''
+   
     diff_text = ""
     
     # Call the GitHub Compare API to get the diff
@@ -27,6 +29,9 @@ async def fetch_github_diff(owner: str, repo: str, before_sha: str, after_sha: s
     return diff_text
 
 def parse_diff(diff_text: str):
+    
+    '''This function parses the raw diff text using the unidiff library and extracts the relevant information about the changed files, including the file paths, change status (added, removed, modified), and the specific lines that were added or removed. The output is a structured list of dictionaries representing each changed file and its associated changes, which can be used for further processing by the diff checker reviewer agent.
+    It takes the raw diff text as input and returns a list of dictionaries with "path", "status", "added", and "removed" keys.'''
     patch = PatchSet(diff_text)
     files = []
 

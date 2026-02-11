@@ -5,6 +5,12 @@ from app.graph.prompts.SYSTEM_PROMPTS import CODE_WRITER_AGENT
 from app.config.open_ai import open_ai_code_writer_client
 
 async def senior_coder_agent(state:GraphState):
+    '''
+    This agent takes the consolidated reviews and writes code updates for each file.
+    It uses the CODE_WRITER_AGENT system prompt to instruct the AI on how to generate the updated code based on the original file content and the list of issues.
+    It expects the state to have a "consolidated_reviews" key, which is a list of dictionaries with "file" and "issues" keys.
+    It also expects a "repo_path" key to locate the files in the cloned repository.'''
+    
     consolidated_reviews = state["consolidated_reviews"]
     
     if not consolidated_reviews:

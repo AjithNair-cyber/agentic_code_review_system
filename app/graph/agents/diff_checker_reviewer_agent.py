@@ -5,6 +5,10 @@ from app.graph.prompts.SYSTEM_PROMPTS import GIT_DIFF_REVIEWER_AGENT
 
 
 async def code_reviewer_agent(state: GraphState):
+    '''
+    This agent reviews the git diff of the recent code changes and provides feedback on potential issues. It uses the GIT_DIFF_REVIEWER_AGENT system prompt to instruct the AI on how to analyze the diff and generate a review message.
+    It expects the state to have a "diffset" key, which is a list of dictionaries with "path", "status", "added", and "removed" keys representing the file changes in the git diff.
+    '''
     diffset = state.get("diffset")
 
     # Guard clause

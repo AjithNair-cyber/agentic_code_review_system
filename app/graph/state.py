@@ -47,6 +47,7 @@ class FileConsolidatedReview(TypedDict):
 
 class CodeWritterOutput(TypedDict):
     file : Optional[str]
+    commit_message: Optional[str]
     updated_code: Optional[str]
 
 class GraphState(TypedDict):

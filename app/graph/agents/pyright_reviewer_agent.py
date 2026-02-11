@@ -5,10 +5,16 @@ from app.graph.prompts.SYSTEM_PROMPTS import PYRIGHT_REVIEWER_AGENT
 
 
 async def pyright_reviewer_agent(state: GraphState):
+    
+    '''This agent reviews the Pyright error messages generated from the recent code changes and provides feedback on potential issues.
+    It uses the PYRIGHT_REVIEWER_AGENT system prompt to instruct the AI on how to analyze the Pyright error messages and generate a review message.
+    It expects the state to have a "pyright_error_messages" key, which is a list of Pyright error messages representing the issues found in the code analysis.
+    The agent processes these error messages and generates a review message that is stored in the state under the "pyright_review_messages" key for further processing by the error aggregator agent.
+    '''
+    
     pyright_errors = state.get("pyright_error_messages")
     # Guard clause
     if not pyright_errors:
-        print("No pyright errors. Skipping reviewer.")
         return {"pyright_review_messages": []}
     
     pyright_error = state.get("pyright_error_messages")[0]

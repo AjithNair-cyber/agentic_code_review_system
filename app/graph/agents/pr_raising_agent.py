@@ -6,14 +6,25 @@ from app.graph.state import GraphState
 
 
 async def raise_pr_agent(state: GraphState):
-    branch_name = f"ai-fix-{uuid.uuid4().hex[:6]}"
+    
+    '''This agent takes the consolidated code updates and creates a new branch in the GitHub repository, commits the changes, pushes the branch,
+    and then creates a pull request via the GitHub API.
+    It expects the state to have a "github" key with "owner", "repo", and "branch" information, as well as a "repo_path" key to locate the 
+    cloned repository and a "consolidated_code_updates" key with the commit messages for the PR.
+    The generated PR URL is stored in the "pr_url" key in the state for further processing by the email sending agent.
+    Currently uses the local Git CLI for git operations and httpx for the GitHub API call.'''
+    
+    branch_name = f"ai-fix/{uuid.uuid4().hex[:6]}"
     settings = get_settings()
     GITHUB_TOKEN = settings.GITHUB_TOKEN
     # Removed the print statement that exposes GITHUB_TOKEN
     github_info = state.get("github", {})
+    commit_messages = state.get("consolidated_code_updates", [])
+    commit_message = "AI Automated Code Fix"
+    for msg in commit_messages:
+        commit_message += f"\n{msg.get('commit_message', '')}"
 
     if not github_info:
-        print("GitHub information missing from state.")
         return {"pr_url": None}
 
     owner = github_info.get("owner")
@@ -22,13 +33,11 @@ async def raise_pr_agent(state: GraphState):
     repo_path = state.get("repo_path")
 
     if not repo_path:
-        print("repo_path missing from state.")
         return {"pr_url": None}
 
     try:
         # Helper inline runner for better logs
         def run_git(cmd):
-            print(f"\n🔹 Running: {' '.join(cmd)}")
             result = subprocess.run(
                 cmd,
                 cwd=repo_path,
@@ -52,7 +61,7 @@ async def raise_pr_agent(state: GraphState):
         auth_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{owner}/{repo}.git"
         run_git(["git", "remote", "set-url", "origin", auth_url])
         # 3️⃣ Commit
-        run_git(["git", "commit", "-m", "AI Automated Code Fix"])
+        run_git(["git", "commit", "-m", commit_message])
 
         # 4️⃣ Push branch
         run_git([ "git","push","--set-upstream","origin", branch_name])  
