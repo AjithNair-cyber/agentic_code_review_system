@@ -3,6 +3,7 @@ import uuid
 import httpx
 from app.config.config import get_settings
 from app.graph.state import GraphState
+from app.helper_functions.logger_functions import logger
 
 
 async def raise_pr_agent(state: GraphState):
@@ -34,6 +35,10 @@ async def raise_pr_agent(state: GraphState):
 
     if not repo_path:
         return {"pr_url": None}
+    
+    logger.info("[PR] Creating automated fix PR")
+    logger.info(f"[PR] Base branch: {base_branch}")
+
 
     try:
         # Helper inline runner for better logs
@@ -85,17 +90,15 @@ async def raise_pr_agent(state: GraphState):
             )
 
         if response.status_code >= 400:
-            print("\n❌ GitHub API Error")
-            print("Status Code:", response.status_code)
-            print("Response:", response.text)
+            logger.error(f"GitHub API Error: {response.status_code}")
+            logger.error(f"Response: {response.text}")
             return {"pr_url": None}
 
         pr_url = response.json().get("html_url")
-        print("\n✅ PR Created:", pr_url)
+        logger.info(f"✅ PR Created: {pr_url}")
 
         return {"pr_url": pr_url}
 
     except Exception as e:
-        print("\n❌ Exception in raise_pr_agent:")
-        print(str(e))
+        logger.error(f"❌ Exception in raise_pr_agent: {str(e)}")
         return {"pr_url": None}

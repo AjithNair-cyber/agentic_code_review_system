@@ -2,6 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from app.graph.state import GraphState
 from app.config.open_ai import open_ai_code_reviewer_client
 from app.graph.prompts.SYSTEM_PROMPTS import PYRIGHT_REVIEWER_AGENT
+from app.helper_functions.logger_functions import logger
 
 
 async def pyright_reviewer_agent(state: GraphState):
@@ -11,7 +12,7 @@ async def pyright_reviewer_agent(state: GraphState):
     It expects the state to have a "pyright_error_messages" key, which is a list of Pyright error messages representing the issues found in the code analysis.
     The agent processes these error messages and generates a review message that is stored in the state under the "pyright_review_messages" key for further processing by the error aggregator agent.
     '''
-    
+    logger.info("[PYRIGHT] Running static type analysis")
     pyright_errors = state.get("pyright_error_messages")
     # Guard clause
     if not pyright_errors:
@@ -28,6 +29,7 @@ async def pyright_reviewer_agent(state: GraphState):
     chain = prompt | open_ai_code_reviewer_client
 
     result = await chain.ainvoke({"pyright_report": pyright_error})
+    logger.info("[PYRIGHT] Analysis completed")
 
     return {
         "pyright_review_messages": [result]

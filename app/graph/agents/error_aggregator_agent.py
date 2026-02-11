@@ -1,5 +1,6 @@
 from collections import defaultdict
 from app.graph.state import GraphState
+from app.helper_functions.logger_functions import logger
 
 def aggregate_reviews_by_file(state: GraphState):
     
@@ -10,6 +11,8 @@ def aggregate_reviews_by_file(state: GraphState):
     '''
     diff_reviews = state.get("code_review_messages", [])
     pyright_reviews = state.get("pyright_review_messages", [])
+    
+    logger.info("[AGGREGATOR] Consolidating review results")
 
     grouped = defaultdict(list)
     # Merge both sources
@@ -32,6 +35,9 @@ def aggregate_reviews_by_file(state: GraphState):
         }
         for file, issues in grouped.items()
     ]    
+    logger.info(f"[AGGREGATOR] Total files with issues: {len(consolidated)}")
+    logger.info("[AGGREGATOR] Aggregation completed")
+    
     return {
         "consolidated_reviews": consolidated
     }

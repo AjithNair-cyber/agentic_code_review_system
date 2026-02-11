@@ -110,6 +110,26 @@ Sends review summary via SMTP (MailHog for local testing).
 
 ---
 
+## 🔔 Webhook Setup (Local Development with smee.io)
+
+This project uses smee.io to forward GitHub webhooks to the local FastAPI server during development.
+
+1️⃣ Create a Smee Channel
+
+- Go to: https://smee.io
+- Click Start a new channel
+- Copy the generated URL
+
+2️⃣ Run Smee Client
+
+- Install smee client globally:
+  npm install -g smee-client
+
+- Start forwarding:
+  smee --url YOUR_SMEE_URL --path /api/v1/github/events --port 8000
+
+---
+
 ## 🧠 Design Decisions
 
 - Multi-agent architecture instead of a single LLM call for modular
@@ -156,7 +176,7 @@ Mail UI: http://localhost:8025
 
 ## 📬 Webhook Setup
 
-- **Payload URL:** `http://your-domain/api/v1/github/events`\
+- **Payload URL:** `Add The created smee.io url generated`\
 - **Content Type:** `application/json`\
 - **Trigger Events:** Push Events
 

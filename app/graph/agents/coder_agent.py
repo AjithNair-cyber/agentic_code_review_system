@@ -3,6 +3,7 @@ from pathlib import Path
 from langchain_core.prompts import ChatPromptTemplate
 from app.graph.prompts.SYSTEM_PROMPTS import CODE_WRITER_AGENT
 from app.config.open_ai import open_ai_code_writer_client
+from app.helper_functions.logger_functions import logger
 
 async def senior_coder_agent(state:GraphState):
     '''
@@ -21,8 +22,12 @@ async def senior_coder_agent(state:GraphState):
     file_path = consolidated_review["file"]
     file_path = Path(repo_path) / file_path
     
+    logger.info("[WRITER] Generating fixes using LLM")
+    logger.info(f"[WRITER] Fixing file: {file_path}")
+    
     file_content = file_path.read_text(encoding="utf-8")
     issues = consolidated_review["issues"]
+    code_changes_required = any(issue.get("code_change_required", False) for issue in issues)
     
     prompt = ChatPromptTemplate.from_messages([
         ("system", CODE_WRITER_AGENT),
@@ -31,7 +36,17 @@ async def senior_coder_agent(state:GraphState):
 
     chain = prompt | open_ai_code_writer_client
 
-    result = await chain.ainvoke({ "content": file_content, "issues": issues})
+    if(not code_changes_required):
+        logger.info("[WRITER] No code changes required for this file.")
+        result = {
+            "file": file_path,
+            "updated_code": file_content,
+            "commit_message": f"No changes required for {file_path}"
+        }
+    else:
+        result = await chain.ainvoke({ "content": file_content, "issues": issues})
+    
+    logger.info("[WRITER] Code generation completed")
     
     return {
         "consolidated_code_updates": [result]

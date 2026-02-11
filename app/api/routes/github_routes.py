@@ -14,6 +14,11 @@ async def handle_github_event(request: Request):
     repo = payload.get("repository").get('full_name').split('/')[1]
     branch = payload.get("ref")
     
+    if before_sha == "0" * 40:
+        # This is likely the first commit in the repository
+          return {"data": "First Commit", "status": "success"}
+        
+    
     if not all([owner, repo, before_sha, after_sha]):
         raise ValueError("Missing required GitHub metadata")
 

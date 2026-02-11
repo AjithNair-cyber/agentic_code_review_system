@@ -17,6 +17,7 @@ class CodeReviewMessage(TypedDict):
     line : Optional[int]
     character: Optional[int]
     severity: Optional[str]
+    code_change_required : Optional[bool]
     recommended_fix: Optional[str]
 
 class GitHubInfo(TypedDict):

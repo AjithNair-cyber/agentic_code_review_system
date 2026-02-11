@@ -2,6 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from app.graph.state import GraphState
 from app.config.open_ai import open_ai_code_reviewer_client
 from app.graph.prompts.SYSTEM_PROMPTS import GIT_DIFF_REVIEWER_AGENT
+from app.helper_functions.logger_functions import logger
 
 
 async def code_reviewer_agent(state: GraphState):
@@ -30,10 +31,14 @@ async def code_reviewer_agent(state: GraphState):
         ("system", GIT_DIFF_REVIEWER_AGENT),
         ("human", "Review this git diff:\n\n{diff}")
     ])
+    logger.info("[LLM_REVIEW] Reviewing code diff")
+    logger.info(f"[LLM_REVIEW] Processing file: {diff['path']}")
 
     chain = prompt | open_ai_code_reviewer_client
 
     result = await chain.ainvoke({"diff": formatted_diff})
+    
+    logger.info("[LLM_REVIEW] Review completed")
 
     return {
         "code_review_messages": [result]

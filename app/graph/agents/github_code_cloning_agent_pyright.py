@@ -3,6 +3,7 @@ from pathlib import Path
 from app.graph.state import GraphState
 import json
 from app.helper_functions.pyright_functions import extract_pyright_errors
+from app.helper_functions.logger_functions import logger
 
 
 def github_code_cloning_agent_pyright(state: GraphState):   
@@ -21,6 +22,8 @@ def github_code_cloning_agent_pyright(state: GraphState):
     repo_name = state["github"]["repo"]
     repo_url = f"https://github.com/{owner}/{repo_name}.git"
     branch = state["github"]["branch"]
+    logger.info("[CLONE] Cloning repository for static analysis")
+    logger.info(f"[CLONE] Repo: {repo_name}")
     
     if not repo_url or not branch:
         raise ValueError("Missing repo_url or branch_name")
@@ -62,6 +65,8 @@ def github_code_cloning_agent_pyright(state: GraphState):
             cwd=repo_path,
             check=True,
         )
+        
+        logger.info("[CLONE] Repository cloned successfully")
 
         # ---------------------------
         # 🔥 CREATE PYRIGHT CONFIG
@@ -98,6 +103,7 @@ def github_code_cloning_agent_pyright(state: GraphState):
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Git operation failed: {e}")
 
+    logger.info(f"[PYRIGHT] Errors found: {len(pyright_output)}")
     return {
         "pyright_error_messages": pyright_output,
         "repo_path": str(repo_path)
