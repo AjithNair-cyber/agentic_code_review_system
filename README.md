@@ -145,10 +145,16 @@ This project uses smee.io to forward GitHub webhooks to the local FastAPI server
 
 ## 🛠 How to Run Locally
 
-### 1️⃣ Clone Repository
+### 1️⃣ Clone Repository and Add .env file
 
     git clone <your-repo-url>
     cd <repo>
+
+    In .env add the following 
+    1. OPEN_AI_API_KEY
+    2. GITHUB_TOKEN ( From Your Own Account, With Content (R/W) & PR (R/W) Permissions
+    3. EMAIL_HOST=127.0.0.1 (For Mailhog)
+    4. EMAIL_PORT=1025 (For Mailhog)
 
 ### 2️⃣ Create Virtual Environment
 
