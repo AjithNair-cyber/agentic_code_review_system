@@ -170,7 +170,7 @@ Mail UI: http://localhost:8025
 
 ### 4️⃣ Run FastAPI Server
 
-    uvicorn app.main:app
+    uvicorn main:app
 
 ---
 
